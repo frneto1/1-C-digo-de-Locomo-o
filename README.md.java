@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -52,7 +51,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    Smartdashboard();
+   Smartdashboard();
 
     Ltrigger = bob.getRawAxis(2);
     Rtrigger = bob.getRawAxis(3);
@@ -127,10 +126,10 @@ public class Robot extends TimedRobot {
       m_rightSpeed = Rtrigger;
     }
   }
-
-  public void Smartdashboard(){
+     public void Smartdashboard(){
     SmartDashboard.putNumber("RTrigger", Rtrigger);
     SmartDashboard.putNumber("LTrigger", Ltrigger);
+    SmartDashboard.putNumber("m_speed", m_speed);
     SmartDashboard.putBoolean("a", a);
     SmartDashboard.putBoolean("b", b);
     SmartDashboard.putBoolean("x", x);
