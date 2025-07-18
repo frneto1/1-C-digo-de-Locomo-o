@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
  
@@ -51,7 +50,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-   Smartdashboard();
 
     Ltrigger = bob.getRawAxis(2);
     Rtrigger = bob.getRawAxis(3);
@@ -77,6 +75,8 @@ public class Robot extends TimedRobot {
     m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
     m_leftDrive.set(ControlMode.PercentOutput, velocidadeL);
     m_leftDrive2.set(ControlMode.PercentOutput, velocidadeL);
+
+   Smartdashboard();
   }
     
     public void button(){
