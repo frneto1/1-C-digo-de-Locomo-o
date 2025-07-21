@@ -33,6 +33,8 @@ public class Robot extends TimedRobot {
     boolean b;
     boolean x;
 
+ 
+
 
   public Robot() {
 
@@ -45,6 +47,37 @@ public class Robot extends TimedRobot {
     m_rightDrive2.setNeutralMode(NeutralMode.Brake);
     m_leftDrive.setNeutralMode(NeutralMode.Brake);
     m_leftDrive2.setNeutralMode(NeutralMode.Brake);
+  }
+
+ @Override
+  public void teleopPeriodic() {
+
+    Ltrigger = bob.getRawAxis(2);
+    Rtrigger = bob.getRawAxis(3);
+
+    a = m_controller.getRawButton(1);
+    b = m_controller.getRawButton(2);
+    x = m_controller.getRawButton(3);
+
+    velocidadeL = m_speed * m_leftSpeed;
+    velocidadeD = m_speed * m_rightSpeed; 
+
+    m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
+    m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
+    m_leftDrive.set(ControlMode.PercentOutput, velocidadeL);
+    m_leftDrive2.set(ControlMode.PercentOutput, velocidadeL);
+
+    if (POV != -1) {
+      pov();
+    } else {
+      velocidadeD = 0;
+      velocidadeL = 0;
+    }
+
+   button();
+   Ltrigger();
+   Rtrigger();
+   Smartdashboard();
   }
       public void button(){
       if (a){
@@ -86,11 +119,13 @@ public class Robot extends TimedRobot {
   public void Ltrigger(){
     if (Ltrigger > 0.04){
       m_leftSpeed = Ltrigger * -1;
+      m_rightSpeed = Ltrigger * -1;
     }
   }
   public void Rtrigger(){
     if (Rtrigger > 0.04){
       m_rightSpeed = Rtrigger;
+      m_leftSpeed = Rtrigger;
     }
   }
      public void Smartdashboard(){
@@ -102,36 +137,3 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("x", x);
   }
   }
-
-  @Override
-  public void teleopPeriodic() {
-
-    Ltrigger = bob.getRawAxis(2);
-    Rtrigger = bob.getRawAxis(3);
-
-    a = m_controller.getRawButton(1);
-    b = m_controller.getRawButton(2);
-    x = m_controller.getRawButton(3);
-
-    velocidadeL = m_speed * m_leftSpeed;
-    velocidadeD = m_speed * m_rightSpeed; 
-
-    m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
-    m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
-    m_leftDrive.set(ControlMode.PercentOutput, velocidadeL);
-    m_leftDrive2.set(ControlMode.PercentOutput, velocidadeL);
-
-    if (POV != -1) {
-      pov();
-    } else {
-      velocidadeD = 0;
-      velocidadeL = 0;
-    }
-
-   button();
-   Ltrigger();
-   Rtrigger();
-   Smartdashboard();
-  }
-    
- 
