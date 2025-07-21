@@ -1,11 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
  
 
@@ -17,26 +17,27 @@ public class Robot extends TimedRobot {
 
     double velocidadeD;
     double velocidadeL;
-    GenericHID m_controller;
 
     Joystick bob = new Joystick(0);
 
     double Ltrigger;
     double Rtrigger;
 
-    double m_speed = 1;
-    double m_leftSpeed = 0.5;
-    double m_rightSpeed = 0.5;
+    double m_speed = 0;
+    double m_leftSpeed = 0;
+    double m_rightSpeed = 0;
     int POV;
 
     boolean a;
     boolean b;
     boolean x;
 
- 
-
-
   public Robot() {
+
+    m_rightDrive.setInverted(true);
+    m_rightDrive2.setInverted(true);
+    m_leftDrive.setInverted(false);
+    m_leftDrive2.setInverted(false);
 
     m_rightDrive.configNeutralDeadband(0.04);
     m_rightDrive2.configNeutralDeadband(0.04);
@@ -51,89 +52,82 @@ public class Robot extends TimedRobot {
 
  @Override
   public void teleopPeriodic() {
-
-    Ltrigger = bob.getRawAxis(2);
-    Rtrigger = bob.getRawAxis(3);
-
-    a = m_controller.getRawButton(1);
-    b = m_controller.getRawButton(2);
-    x = m_controller.getRawButton(3);
-
-    velocidadeL = m_speed * m_leftSpeed;
-    velocidadeD = m_speed * m_rightSpeed; 
-
+    button();
+    dash();
+    
     m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
     m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
     m_leftDrive.set(ControlMode.PercentOutput, velocidadeL);
     m_leftDrive2.set(ControlMode.PercentOutput, velocidadeL);
 
-    if (POV != -1) {
-      pov();
-    } else {
-      velocidadeD = 0;
-      velocidadeL = 0;
-    }
+    Ltrigger = bob.getRawAxis(2);
+    Rtrigger = bob.getRawAxis(3);
 
-   button();
-   Ltrigger();
-   Rtrigger();
-   Smartdashboard();
-  }
-      public void button(){
-      if (a){
-          m_speed = 0.25;
-      } 
-      else if (b){
-          m_speed = 0.5;
-      }
-      else if (x){
-          m_speed = 1;
-      }
+    POV = bob.getPOV();
 
+    a = bob.getRawButton(1);
+    b = bob.getRawButton(2);
+    x = bob.getRawButton(3);
   }
-  public void pov() {
-    switch(POV){
-      case 0:
-        m_leftSpeed = 0.5 ;
-        m_rightSpeed = 0.5 ;
-        break;
-      case 90: 
-        m_leftSpeed = 0.5 ;
-        m_rightSpeed = -0.5 ;
-        break;
-      case 180:
-        m_leftSpeed = -0.5 ;
-        m_rightSpeed = -0.5 ;
-        break;
-      case 270:
-        m_leftSpeed = -0.5 ;
-        m_rightSpeed = 0.5 ;
-        break;
-      default:
-        m_leftSpeed = 0;
-        m_rightSpeed = 0;
 
-
-      }
-  }
-  public void Ltrigger(){
-    if (Ltrigger > 0.04){
-      m_leftSpeed = Ltrigger * -1;
-      m_rightSpeed = Ltrigger * -1;
-    }
-  }
-  public void Rtrigger(){
-    if (Rtrigger > 0.04){
-      m_rightSpeed = Rtrigger;
-      m_leftSpeed = Rtrigger;
-    }
-  }
-     public void Smartdashboard(){
+  public void dash(){
     SmartDashboard.putNumber("RTrigger", Rtrigger);
     SmartDashboard.putNumber("LTrigger", Ltrigger);
     SmartDashboard.putNumber("m_speed", m_speed);
+    SmartDashboard.putNumber("velocidadeD", velocidadeD);
+    SmartDashboard.putNumber("VelocidadeL", velocidadeL);
     SmartDashboard.putBoolean("a", a);
     SmartDashboard.putBoolean("b", b);
     SmartDashboard.putBoolean("x", x);
   }
+
+  public void button(){
+    if (a){
+      m_speed = 0.25;
+
+    } 
+    else if (b){
+      m_speed = 0.5;
+    }
+    else if (x){
+      m_speed = 1;
+    }
+  }
+ 
+  public void pov() {
+    switch(POV){
+      case 0:
+        velocidadeL = m_speed;
+        velocidadeD = m_speed;
+        break;
+      case 90: 
+        velocidadeL = m_speed;
+        velocidadeD = -m_speed;
+        break;
+      case 180:
+        velocidadeL = -m_speed ;
+        velocidadeD = -m_speed ;
+        break;
+      case 270:
+        velocidadeL = -m_speed ;
+        velocidadeD = m_speed ;
+        break;
+      }
+  }
+ 
+  public void Ltrigger(){
+    if (Ltrigger > 0.04){
+      velocidadeL = Ltrigger * m_speed;
+      velocidadeD = Ltrigger * m_speed;
+    }
+  }
+
+  public void Rtrigger(){
+    if (Rtrigger > 0.04){
+      velocidadeD = Rtrigger * -m_speed;
+      velocidadeL = Rtrigger * -m_speed;
+    }
+  }
+    
+
   }
