@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -10,10 +9,10 @@ import edu.wpi.first.wpilibj.Joystick;
  
 
 public class Robot extends TimedRobot {
-    private final VictorSPX m_leftDrive = new VictorSPX(1);
+    private final VictorSPX m_leftDrive = new VictorSPX(3);
     private final VictorSPX m_rightDrive = new VictorSPX(2);
-    private final VictorSPX m_leftDrive2 = new VictorSPX(3);
-    private final VictorSPX m_rightDrive2 = new VictorSPX(4);
+    private final VictorSPX m_leftDrive2 = new VictorSPX(4);
+    private final VictorSPX m_rightDrive2 = new VictorSPX(1);
 
     double velocidadeD;
     double velocidadeL;
@@ -27,6 +26,7 @@ public class Robot extends TimedRobot {
     double m_leftSpeed = 0;
     double m_rightSpeed = 0;
     int POV;
+    
 
     boolean a;
     boolean b;
@@ -52,22 +52,27 @@ public class Robot extends TimedRobot {
 
  @Override
   public void teleopPeriodic() {
-    button();
+    a = bob.getRawButton(1);
+    b = bob.getRawButton(2);
+    x = bob.getRawButton(3);
+
+    Ltrigger = bob.getRawAxis(2);
+    Rtrigger = bob.getRawAxis(3);
+    POV = bob.getPOV();
+
     dash();
+    button();
+    pov();
+
+    if (POV == -1){
+      Rtrigger();
+      Ltrigger();
+    }
     
     m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
     m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
     m_leftDrive.set(ControlMode.PercentOutput, velocidadeL);
     m_leftDrive2.set(ControlMode.PercentOutput, velocidadeL);
-
-    Ltrigger = bob.getRawAxis(2);
-    Rtrigger = bob.getRawAxis(3);
-
-    POV = bob.getPOV();
-
-    a = bob.getRawButton(1);
-    b = bob.getRawButton(2);
-    x = bob.getRawButton(3);
   }
 
   public void dash(){
@@ -93,7 +98,6 @@ public class Robot extends TimedRobot {
       m_speed = 1;
     }
   }
- 
   public void pov() {
     switch(POV){
       case 0:
@@ -112,20 +116,23 @@ public class Robot extends TimedRobot {
         velocidadeL = -m_speed ;
         velocidadeD = m_speed ;
         break;
-      }
+      case -1:
+        velocidadeL = 0;
+        velocidadeD = 0;
+      } 
   }
  
   public void Ltrigger(){
     if (Ltrigger > 0.04){
-      velocidadeL = Ltrigger * m_speed;
-      velocidadeD = Ltrigger * m_speed;
+      velocidadeL = Ltrigger * -m_speed;
+      velocidadeD =  Ltrigger * -m_speed;
     }
   }
 
   public void Rtrigger(){
     if (Rtrigger > 0.04){
-      velocidadeD = Rtrigger * -m_speed;
-      velocidadeL = Rtrigger * -m_speed;
+      velocidadeD = Rtrigger * m_speed;
+      velocidadeL = Rtrigger * m_speed;
     }
   }
     
