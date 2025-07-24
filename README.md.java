@@ -23,7 +23,13 @@ public class Robot extends TimedRobot {
     double Ltrigger;
     double Rtrigger;
 
-    double m_speed = 1;
+
+    double x_left;
+    double x_right;
+    double y_left;
+    double y_right;
+
+    double m_speed = 0;
     int POV;
 
     boolean a;
@@ -56,7 +62,16 @@ public class Robot extends TimedRobot {
     Ltrigger = bob.getRawAxis(2);
     Rtrigger = bob.getRawAxis(3);
 
+     x_left = bob.getRawAxis(0);
+     y_left = bob.getRawAxis(1);
+
+     x_right = bob.getRawAxis(4);
+     y_right = bob.getRawAxis(5);
+
+
     POV = bob.getPOV();
+
+    anaE();
 
     a = bob.getRawButton(1);
     b = bob.getRawButton(2);
@@ -87,6 +102,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("a", a);
     SmartDashboard.putBoolean("b", b);
     SmartDashboard.putBoolean("x", x);
+
   }
 
   public void button(){
@@ -125,8 +141,8 @@ public class Robot extends TimedRobot {
  
   public void Ltrigger(){
     if (Ltrigger > 0.04){
-      velocidadeL = Ltrigger * m_speed;
-      velocidadeD = Ltrigger * m_speed;
+      velocidadeL = Ltrigger * -m_speed;
+      velocidadeD = Ltrigger * -m_speed;
     } else{
       velocidadeL = m_speed * 0;
       velocidadeD = m_speed * 0;
@@ -135,11 +151,41 @@ public class Robot extends TimedRobot {
 
   public void Rtrigger(){
     if (Rtrigger > 0.04){
-      velocidadeD = Rtrigger * -m_speed;
-      velocidadeL = Rtrigger * -m_speed;
+      velocidadeD = Rtrigger * m_speed;
+      velocidadeL = Rtrigger * m_speed;
     } else{
       velocidadeD = m_speed * 0;
       velocidadeL = m_speed * 0;
     }
   }
-}
+
+  public void anaE() {
+    if (y_left > 0 & x_left > 0){ //primeiro quadrante
+
+
+      }
+    else if (y_left > 0 & x_left < 0){ //segundo quadrante
+
+      }
+    else if (y_left < 0 & x_left < 0){ //terceiro quadrante
+
+      }
+    else if (y_left < 0 & x_left > 0){ //quarto quadrante
+
+      }
+    }
+  public void anaD(){
+    if (y_right > 0 & x_right > 0){ //primeiro quadrante
+
+    }
+    else if (y_right > 0 & x_right < 0){ //segundo quadrante
+
+    }
+    else if (y_right < 0 & x_right < 0){ //terceiro quadrante
+
+    }
+    else if (y_right < 0 & x_right > 0){ //quarto quadrante
+
+    }
+  }
+  }
