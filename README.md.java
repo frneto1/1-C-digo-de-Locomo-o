@@ -36,6 +36,8 @@ public class Robot extends TimedRobot {
     boolean b;
     boolean x;
 
+    double magnitude = Math.hypot('')
+
   public Robot() {
 
     m_rightDrive.setInverted(true);
@@ -161,31 +163,29 @@ public class Robot extends TimedRobot {
 
   public void anaE() {
     if (y_left > 0 & x_left > 0){ //primeiro quadrante
-
-
+      
       }
     else if (y_left > 0 & x_left < 0){ //segundo quadrante
-
+      
       }
     else if (y_left < 0 & x_left < 0){ //terceiro quadrante
-
+      
       }
     else if (y_left < 0 & x_left > 0){ //quarto quadrante
-
+      
       }
     }
-  public void anaD(){
-    if (y_right > 0 & x_right > 0){ //primeiro quadrante
+  // public void anaD(){
+  //   if (y_right > 0.04 & x_right > 0){ //primeiro quadrante
 
-    }
-    else if (y_right > 0 & x_right < 0){ //segundo quadrante
+  //   }
+  //   else if (y_right > 0 & x_right < 0){ //segundo quadrante
 
-    }
-    else if (y_right < 0 & x_right < 0){ //terceiro quadrante
+  //   }
+  //   else if (y_right < 0 & x_right < 0){ //terceiro quadrante
 
-    }
-    else if (y_right < 0 & x_right > 0){ //quarto quadrante
+  //   }
+  //   else if (y_right < 0 & x_right > 0){ //quarto quadrante
 
-    }
-  }
+  //   }
   }
