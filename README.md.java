@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     boolean b;
     boolean x;
 
-    double magnitude = Math.hypot('')
+    double magnitude = Math.hypot(x_left, y_left);
 
   public Robot() {
 
@@ -163,16 +163,20 @@ public class Robot extends TimedRobot {
 
   public void anaE() {
     if (y_left > 0 & x_left > 0){ //primeiro quadrante
-      
+      velocidadeD = magnitude * m_speed - 1;
+      velocidadeL = magnitude * m_speed + 1;
       }
     else if (y_left > 0 & x_left < 0){ //segundo quadrante
-      
+      velocidadeD = magnitude * m_speed + 1;
+      velocidadeL = magnitude * m_speed - 1;
       }
     else if (y_left < 0 & x_left < 0){ //terceiro quadrante
-      
+      velocidadeD = magnitude * m_speed - 1;
+      velocidadeL = magnitude * m_speed + 1;
       }
     else if (y_left < 0 & x_left > 0){ //quarto quadrante
-      
+      velocidadeD = magnitude * m_speed + 1;
+      velocidadeL = magnitude * m_speed - 1;
       }
     }
   // public void anaD(){
