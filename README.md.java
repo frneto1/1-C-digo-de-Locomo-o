@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
     boolean x;
 
     double magnitude = Math.hypot(x_left, y_left);
+    double magnitude2 = Math.hypot(x_right, y_right);
 
   public Robot() {
 
@@ -187,17 +188,17 @@ public class Robot extends TimedRobot {
         velocidadeE = 0;
       }
     }
-  // public void anaD(){
-  //   if (y_right > 0.04 & x_right > 0){ //primeiro quadrante
+   public void anaD(){
+    if (y_right > 0.04 & x_right > 0){ //primeiro quadrante
+      
+     }
+     else if (y_right > 0 & x_right < 0){ //segundo quadrante
 
-  //   }
-  //   else if (y_right > 0 & x_right < 0){ //segundo quadrante
+     }
+     else if (y_right < 0 & x_right < 0){ //terceiro quadrante
 
-  //   }
-  //   else if (y_right < 0 & x_right < 0){ //terceiro quadrante
-
-  //   }
-  //   else if (y_right < 0 & x_right > 0){ //quarto quadrante
-
-  //   }
+     }
+     else if (y_right < 0 & x_right > 0){ //quarto quadrante
+   }
   }
+}
