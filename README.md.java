@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Joystick;
  
 
@@ -42,6 +43,8 @@ public class Robot extends TimedRobot {
     double magnitude = Math.hypot(x_left, y_left);
     double magnitude2 = Math.hypot(x_right, y_right);
 
+    double senoDessaMerda = (y_left/magnitude);
+
   public Robot() {
 
     m_rightDrive.setInverted(true);
@@ -63,6 +66,7 @@ public class Robot extends TimedRobot {
  @Override
   public void teleopPeriodic() {
     button();
+    anaE();
     dash();
 
     Ltrigger = bob.getRawAxis(2);
@@ -70,14 +74,11 @@ public class Robot extends TimedRobot {
 
     x_left = bob.getRawAxis(0);
     y_left = bob.getRawAxis(1);
-
     x_right = bob.getRawAxis(4);
     y_right = bob.getRawAxis(5);
 
 
     POV = bob.getPOV();
-
-    anaE();
 
     a = bob.getRawButton(1);
     b = bob.getRawButton(2);
@@ -97,6 +98,7 @@ public class Robot extends TimedRobot {
     m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
     m_leftDrive.set(ControlMode.PercentOutput, velocidadeE);
     m_leftDrive2.set(ControlMode.PercentOutput, velocidadeE);
+
   }
 
   public void dash(){
@@ -168,21 +170,21 @@ public class Robot extends TimedRobot {
   }
 
   public void anaE() {
-    if (y_left > 0 & x_left > 0){ //primeiro quadrante
-      velocidadeD = magnitude * m_speed - 1;
-      velocidadeE = magnitude * m_speed + 1;
+    if (y_left > 0.04 && x_left > 0.04){ //primeiro quadrante
+      velocidadeD = (2 * senoDessaMerda - 1) * magnitude2 * m_speed;
+      velocidadeE = (2 * senoDessaMerda - 1) * magnitude * m_speed;
       }
-    else if (y_left > 0 & x_left < 0){ //segundo quadrante
-      velocidadeD = magnitude * m_speed + 1;
-      velocidadeE = magnitude * m_speed - 1;
+    else if (y_left > 0.04 && x_left < 0.04){ //segundo quadrante
+      velocidadeD =  (2 * senoDessaMerda - 1) * magnitude2 * m_speed;
+      velocidadeE =  (2 * senoDessaMerda - 1) * magnitude * m_speed;
       }
-    else if (y_left < 0 & x_left < 0){ //terceiro quadrante
-      velocidadeD = magnitude * m_speed - 1;
-      velocidadeE = magnitude * m_speed + 1;
+    else if (y_left < 0.04 && x_left < 0.04){ //terceiro quadrante
+      velocidadeD =  (2 * senoDessaMerda + 1) * magnitude2 * m_speed;
+      velocidadeE =  (2 * senoDessaMerda + 1) * magnitude * m_speed;
       }
-    else if (y_left < 0 & x_left > 0){ //quarto quadrante
-      velocidadeD = magnitude * m_speed + 1;
-      velocidadeE = magnitude * m_speed - 1;
+    else if (y_left < 0.04 && x_left > 0.04){ //quarto quadrante
+      velocidadeD =  (2 * senoDessaMerda + 1) * magnitude2 * m_speed;
+      velocidadeE =  (2 * senoDessaMerda + 1) * magnitude * m_speed;
       } else {
         velocidadeD = 0;
         velocidadeE = 0;
