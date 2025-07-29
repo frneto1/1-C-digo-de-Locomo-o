@@ -33,17 +33,12 @@ public class Robot extends TimedRobot {
     double anaE;
     double anaD;
 
-    double m_speed = 0;
+    double m_speed = 0.1;
     int POV;
 
     boolean a;
     boolean b;
     boolean x;
-
-    double magnitude = Math.hypot(x_left, y_left);
-    double magnitude2 = Math.hypot(x_right, y_right);
-
-    double senoDessaMerda = (y_left/magnitude);
 
   public Robot() {
 
@@ -66,7 +61,6 @@ public class Robot extends TimedRobot {
  @Override
   public void teleopPeriodic() {
     button();
-    anaE();
     dash();
 
     Ltrigger = bob.getRawAxis(2);
@@ -76,6 +70,8 @@ public class Robot extends TimedRobot {
     y_left = bob.getRawAxis(1);
     x_right = bob.getRawAxis(4);
     y_right = bob.getRawAxis(5);
+
+    anaE();
 
 
     POV = bob.getPOV();
@@ -101,6 +97,9 @@ public class Robot extends TimedRobot {
 
   }
 
+  double magnitude = Math.hypot(Math.min(x_left, y_left), Math.max(x_left, y_left));
+  double sen = (y_left/magnitude);
+
   public void dash(){
     SmartDashboard.putNumber("RTrigger", Rtrigger);
     SmartDashboard.putNumber("LTrigger", Ltrigger);
@@ -110,9 +109,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("a", a);
     SmartDashboard.putBoolean("b", b);
     SmartDashboard.putBoolean("x", x);
-    SmartDashboard.putNumber("Analógico Esquerdo", anaE);
-    SmartDashboard.putNumber("Analógico Direito", anaD);
-
+    SmartDashboard.putNumber("Analogico Esquerdo", anaE);
   }
 
   public void button(){
@@ -170,37 +167,22 @@ public class Robot extends TimedRobot {
   }
 
   public void anaE() {
-    if (y_left > 0.04 && x_left > 0.04){ //primeiro quadrante
-      velocidadeD = (2 * senoDessaMerda - 1) * magnitude2 * m_speed;
-      velocidadeE = (2 * senoDessaMerda - 1) * magnitude * m_speed;
-      }
-    else if (y_left > 0.04 && x_left < 0.04){ //segundo quadrante
-      velocidadeD =  (2 * senoDessaMerda - 1) * magnitude2 * m_speed;
-      velocidadeE =  (2 * senoDessaMerda - 1) * magnitude * m_speed;
-      }
-    else if (y_left < 0.04 && x_left < 0.04){ //terceiro quadrante
-      velocidadeD =  (2 * senoDessaMerda + 1) * magnitude2 * m_speed;
-      velocidadeE =  (2 * senoDessaMerda + 1) * magnitude * m_speed;
-      }
-    else if (y_left < 0.04 && x_left > 0.04){ //quarto quadrante
-      velocidadeD =  (2 * senoDessaMerda + 1) * magnitude2 * m_speed;
-      velocidadeE =  (2 * senoDessaMerda + 1) * magnitude * m_speed;
-      } else {
-        velocidadeD = 0;
-        velocidadeE = 0;
-      }
+    if (y_left > 0 && x_left > 0){
+      velocidadeD = (2 * sen * m_speed) * magnitude - 1;
+      velocidadeE = m_speed;
+    } else if (y_left > 0 && x_left < 0) {
+      velocidadeD = m_speed;
+      velocidadeE = (2 * sen * m_speed) * magnitude - 1;
+    } else if (y_left < 0 && x_left < 0){
+      velocidadeD = (2 * sen * -m_speed) * magnitude + 1;
+      velocidadeE = -m_speed;
+    } else if (y_left < 0 && x_left > 0){
+      velocidadeD = -m_speed;
+      velocidadeE = (2 * sen * -m_speed) * magnitude + 1;
+    } else {
+      velocidadeD = 0;
+      velocidadeE = 0;
     }
-   public void anaD(){
-    if (y_right > 0.04 & x_right > 0){ //primeiro quadrante
-      
-     }
-     else if (y_right > 0 & x_right < 0){ //segundo quadrante
 
-     }
-     else if (y_right < 0 & x_right < 0){ //terceiro quadrante
-
-     }
-     else if (y_right < 0 & x_right > 0){ //quarto quadrante
-   }
   }
 }
