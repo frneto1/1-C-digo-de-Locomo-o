@@ -33,12 +33,15 @@ public class Robot extends TimedRobot {
     double anaE;
     double anaD;
 
-    double m_speed = 0.1;
+    double m_speed = 0;
     int POV;
 
     boolean a;
     boolean b;
     boolean x;
+
+    double magnitude = Math.hypot(x_left, y_left);
+    double sen = (x_left/magnitude);
 
   public Robot() {
 
@@ -71,8 +74,6 @@ public class Robot extends TimedRobot {
     x_right = bob.getRawAxis(4);
     y_right = bob.getRawAxis(5);
 
-    anaE();
-
 
     POV = bob.getPOV();
 
@@ -90,15 +91,17 @@ public class Robot extends TimedRobot {
       }
     }
 
+    if (POV == -1 && Ltrigger == 0 && Rtrigger == 0){
+      anaE();
+    }
+
+
     m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
     m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
     m_leftDrive.set(ControlMode.PercentOutput, velocidadeE);
     m_leftDrive2.set(ControlMode.PercentOutput, velocidadeE);
 
   }
-
-  double magnitude = Math.hypot(Math.min(x_left, y_left), Math.max(x_left, y_left));
-  double sen = (y_left/magnitude);
 
   public void dash(){
     SmartDashboard.putNumber("RTrigger", Rtrigger);
@@ -167,22 +170,27 @@ public class Robot extends TimedRobot {
   }
 
   public void anaE() {
-    if (y_left > 0 && x_left > 0){
-      velocidadeD = (2 * sen * m_speed) * magnitude - 1;
-      velocidadeE = m_speed;
-    } else if (y_left > 0 && x_left < 0) {
-      velocidadeD = m_speed;
-      velocidadeE = (2 * sen * m_speed) * magnitude - 1;
-    } else if (y_left < 0 && x_left < 0){
-      velocidadeD = (2 * sen * -m_speed) * magnitude + 1;
-      velocidadeE = -m_speed;
-    } else if (y_left < 0 && x_left > 0){
-      velocidadeD = -m_speed;
-      velocidadeE = (2 * sen * -m_speed) * magnitude + 1;
-    } else {
-      velocidadeD = 0;
-      velocidadeE = 0;
-    }
 
+    if (y_left > -0.004 && x_left > 0.004){
+      velocidadeD = 2 * (sen * m_speed) * -magnitude;
+      velocidadeE = m_speed;
+    }
+    else if (y_left > -0.004 && x_left < 0.004){
+      velocidadeD = m_speed;
+      velocidadeE = 2 * (sen * m_speed)  - magnitude;
+    }
+    else if (y_left < -0.004 && x_left < 0.004){
+      velocidadeD = m_speed;
+      velocidadeE = 2 * (sen * m_speed) + magnitude;
+    }
+    else if (y_left < -0.004 && x_left > 0.004){
+      velocidadeD = 2 * (sen * m_speed) + magnitude;
+      velocidadeE = m_speed;
+
+    } else if (y_left == -0.004 && x_left == 0.004){
+      velocidadeE = m_speed * 0;
+      velocidadeD = m_speed * 0;
+
+    }
   }
 }
