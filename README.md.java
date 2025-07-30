@@ -170,21 +170,22 @@ public class Robot extends TimedRobot {
 
     double magnitude = Math.sqrt(y_left * y_left + x_left * x_left);
     double sen = y_left/magnitude;
+    Math.max(magnitude, m_speed);
 
     if (y_left > 0 && x_left > 0){
-      velocidadeD = 2 * (sen * (magnitude - (magnitude - m_speed))) - 1;
-      velocidadeE = magnitude - 1;
+      velocidadeD = magnitude;
+      velocidadeE = magnitude;
     }
     else if (y_left > 0 && x_left < 0){
       velocidadeD = magnitude - 1;
-      velocidadeE = 2 * (sen * (magnitude - (magnitude - m_speed)) * m_speed) - 1;
+      velocidadeE = 2 * sen * m_speed * magnitude - 1;
     }
     else if (y_left < 0 && x_left < 0){
       velocidadeD = magnitude + 1;
-      velocidadeE = 2 * (sen * (magnitude - (magnitude - m_speed)) * m_speed) + 1;
+      velocidadeE = 2 * sen * m_speed * magnitude + 1;
     }
     else if (y_left < 0 && x_left > 0){
-      velocidadeD = 2 * (sen * (magnitude - (magnitude - m_speed)) * m_speed) + 1;
+      velocidadeD = 2 * sen * m_speed * magnitude + 1;
       velocidadeE = magnitude + 1;
 
     } else{
