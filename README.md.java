@@ -33,15 +33,12 @@ public class Robot extends TimedRobot {
     double anaE;
     double anaD;
 
-    double m_speed = 0;
+    double m_speed;
     int POV;
 
     boolean a;
     boolean b;
     boolean x;
-
-    double magnitude = Math.hypot(x_left, y_left);
-    double sen = (x_left/magnitude);
 
   public Robot() {
 
@@ -171,23 +168,26 @@ public class Robot extends TimedRobot {
 
   public void anaE() {
 
-    if (y_left > -0.004 && x_left > 0.004){
-      velocidadeD = 2 * (sen * m_speed) * -magnitude;
+    double magnitude = Math.sqrt(y_left * y_left + x_left * x_left);
+    double sen = y_left/magnitude;
+
+    if (y_left > 0 && x_left > 0){
+      velocidadeD = 2 * sen * m_speed * magnitude - 1;
       velocidadeE = m_speed;
     }
-    else if (y_left > -0.004 && x_left < 0.004){
+    else if (y_left > 0 && x_left < 0){
       velocidadeD = m_speed;
-      velocidadeE = 2 * (sen * m_speed)  - magnitude;
+      velocidadeE = 2 * sen * m_speed * magnitude - 1;
     }
-    else if (y_left < -0.004 && x_left < 0.004){
+    else if (y_left < 0 && x_left < 0){
       velocidadeD = m_speed;
-      velocidadeE = 2 * (sen * m_speed) + magnitude;
+      velocidadeE = 2 * sen * m_speed * magnitude + 1;
     }
-    else if (y_left < -0.004 && x_left > 0.004){
-      velocidadeD = 2 * (sen * m_speed) + magnitude;
+    else if (y_left < 0 && x_left > 0){
+      velocidadeD = 2 * sen * m_speed *magnitude + 1;
       velocidadeE = m_speed;
 
-    } else if (y_left == -0.004 && x_left == 0.004){
+    } else{
       velocidadeE = m_speed * 0;
       velocidadeD = m_speed * 0;
 
