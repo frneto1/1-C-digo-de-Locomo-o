@@ -88,9 +88,7 @@ public class Robot extends TimedRobot {
       }
     }
 
-    if (POV == -1 && Ltrigger == 0 && Rtrigger == 0){
       anaE();
-    }
 
 
     m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
@@ -170,27 +168,35 @@ public class Robot extends TimedRobot {
 
     double magnitude = Math.sqrt(y_left * y_left + x_left * x_left);
     double sen = y_left/magnitude;
+    
 
-    if (y_left > 0 && x_left > 0){
-      velocidadeD = 2 * (sen * magnitude - 1) * m_speed;
-      velocidadeE = magnitude;
+    if (y_left == -1){
+      velocidadeE = m_speed;
+      velocidadeD = m_speed;
     }
-    else if (y_left > 0 && x_left < 0){
-      velocidadeD = magnitude;
-      velocidadeE = 2 * (sen * magnitude - 1) * m_speed;
-    }
-    else if (y_left < 0 && x_left < 0){
-      velocidadeD = magnitude + 1;
-      velocidadeE = 2 * (sen * magnitude - 1) * m_speed;
+    else if (y_left == 1){
+      velocidadeE = -m_speed;
+      velocidadeD = -m_speed;
     }
     else if (y_left < 0 && x_left > 0){
-      velocidadeD = 2 * (sen * magnitude - 1) * m_speed;
-      velocidadeE = magnitude + 1;
-
-    } else{
-      velocidadeE = m_speed * 0;
-      velocidadeD = m_speed * 0;
-
+      velocidadeE = -(2 * (sen * magnitude - 1) * m_speed);
+      velocidadeD = - (2 * (sen * magnitude - (1 * m_speed)) * m_speed);
+    } 
+    else if (y_left < 0 && x_left < 0){
+      velocidadeE = -(2 * (sen * magnitude - (1 * m_speed)) * m_speed);
+      velocidadeD = -(2 * (sen * magnitude - 1) * m_speed);
+    }
+    else if (y_left > 0 && x_left < 0){
+      velocidadeE = -(2 * (sen * magnitude + (1 * m_speed)) * m_speed);
+      velocidadeD = -(2 * (sen * magnitude + 1) * m_speed);
+    }
+    else if (y_left > 0 & x_left > 0){
+      velocidadeE = -(2 * (sen * magnitude + 1) * m_speed);
+      velocidadeD = -(2 * (sen * magnitude + (1 * m_speed)) * m_speed);
+    }
+    else {
+      velocidadeE = 0;
+      velocidadeD = 0;
     }
   }
 }
