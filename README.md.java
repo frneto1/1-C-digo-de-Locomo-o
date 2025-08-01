@@ -24,6 +24,9 @@ public class Robot extends TimedRobot {
     double Ltrigger;
     double Rtrigger;
 
+    double magnitude;
+    double sen;
+
 
     double x_left;
     double x_right;
@@ -87,9 +90,7 @@ public class Robot extends TimedRobot {
         Rtrigger();
       }
     }
-
-      anaE();
-
+    anaE();
 
     m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
     m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
@@ -168,31 +169,33 @@ public class Robot extends TimedRobot {
 
     double magnitude = Math.sqrt(y_left * y_left + x_left * x_left);
     double sen = y_left/magnitude;
-    
+
+    Math.max(1, velocidadeD);
+    Math.max(1, velocidadeE);
 
     if (y_left == -1){
-      velocidadeE = m_speed;
-      velocidadeD = m_speed;
+      velocidadeD = -(m_speed * magnitude * sen);
+      velocidadeE = -(m_speed * magnitude * sen);
     }
     else if (y_left == 1){
-      velocidadeE = -m_speed;
       velocidadeD = -m_speed;
+      velocidadeE = -m_speed;
     }
     else if (y_left < 0 && x_left > 0){
-      velocidadeE = -(2 * (sen * magnitude - 1) * m_speed);
-      velocidadeD = - (2 * (sen * magnitude - (1 * m_speed)) * m_speed);
+      velocidadeE = (m_speed * magnitude * sen) * -1;
+      velocidadeD = (m_speed * magnitude * sen) - (1 * m_speed) * -1;
     } 
     else if (y_left < 0 && x_left < 0){
-      velocidadeE = -(2 * (sen * magnitude - (1 * m_speed)) * m_speed);
-      velocidadeD = -(2 * (sen * magnitude - 1) * m_speed);
+      velocidadeE = (m_speed * magnitude * sen) - (1 * m_speed) * -1;
+      velocidadeD = (m_speed * magnitude * sen) * -1;
     }
     else if (y_left > 0 && x_left < 0){
-      velocidadeE = -(2 * (sen * magnitude + (1 * m_speed)) * m_speed);
-      velocidadeD = -(2 * (sen * magnitude + 1) * m_speed);
+      velocidadeE = (m_speed * magnitude * sen) - (1 * m_speed);
+      velocidadeD = -(m_speed * magnitude * sen);
     }
     else if (y_left > 0 & x_left > 0){
-      velocidadeE = -(2 * (sen * magnitude + 1) * m_speed);
-      velocidadeD = -(2 * (sen * magnitude + (1 * m_speed)) * m_speed);
+      velocidadeE = -(m_speed * magnitude * sen);
+      velocidadeD = (m_speed * magnitude * sen) - (1 * m_speed);
     }
     else {
       velocidadeE = 0;
