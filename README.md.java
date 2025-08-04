@@ -196,7 +196,7 @@ public class Robot extends TimedRobot {
       velocidadeE = -m_speed;
       velocidadeD = -(m_speed * sen) * magnitude;
     }
-    else if (y_left == -0.004 && x_left == 0.004){
+    else if (y_left < 0.04 && y_left > -0.04 && x_left < 0.04 && x_left > 0){
       velocidadeE = m_speed * 0;
       velocidadeD = m_speed * 0;
     }
@@ -226,7 +226,7 @@ public class Robot extends TimedRobot {
       velocidadeE = -m_speed;
       velocidadeD = -(m_speed * sen2) * magnitude2;
     }
-    else if (y_right == -0.004 && x_right == 0.004){
+    else if (y_left < 0.04 && y_left > -0.04 && x_left < 0.04 && x_left > 0){
       velocidadeE = m_speed * 0;
       velocidadeD = m_speed * 0;
     }
