@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
     double magnitude;
     double magnitude2;
     double sen;
+    double sen2;
 
 
     double x_left;
@@ -81,13 +82,12 @@ public class Robot extends TimedRobot {
 
     if (POV != -1){
       pov();
-    } else {
-      if (Rtrigger == 0.04 && magnitude < 0.1 && magnitude2 < 0.01){
+    } else if (Rtrigger == 0 && magnitude < 0.1 && magnitude2 < 0.01){
         Ltrigger();
-      } else if (Ltrigger == 0.04 && magnitude < 0.01 && magnitude2 < 0.01){
+    } else if (Ltrigger == 0 && magnitude < 0.01 && magnitude2 < 0.01){
         Rtrigger();
-      }
     }
+    
 
     a = bob.getRawButton(1);
     b = bob.getRawButton(2);
@@ -180,7 +180,7 @@ public class Robot extends TimedRobot {
     Math.max(1, velocidadeE);
 
     
-    if (y_left < 0.004 && x_left > 0.004){
+    if (y_left < 0.04 && x_left > 0.04){
       velocidadeE = m_speed;
       velocidadeD = (m_speed * sen) * magnitude * -1;
     } 
@@ -192,11 +192,11 @@ public class Robot extends TimedRobot {
       velocidadeE = -(m_speed * sen) * magnitude;
       velocidadeD = -m_speed;
     }
-    else if (y_left > 0.004 & x_left > 0.004){
+    else if (y_left > 0.04 & x_left > 0.04){
       velocidadeE = -m_speed;
       velocidadeD = -(m_speed * sen) * magnitude;
     }
-    else if (y_left < 0.04 && y_left > -0.04 && x_left < 0.04 && x_left > 0){
+    else{
       velocidadeE = m_speed * 0;
       velocidadeD = m_speed * 0;
     }
@@ -210,7 +210,7 @@ public class Robot extends TimedRobot {
     Math.max(1, velocidadeE);
 
     
-    if (y_right < 0.004 && x_right > 0.004){
+    if (y_right < 0.04 && x_right > 0.04){
       velocidadeE = m_speed;
       velocidadeD = (m_speed * sen2) * magnitude2 * -1;
     } 
@@ -222,11 +222,11 @@ public class Robot extends TimedRobot {
       velocidadeE = -(m_speed * sen2) * magnitude2;
       velocidadeD = -m_speed;
     }
-    else if (y_right > 0.004 & x_right > 0.004){
+    else if (y_right > 0.04 & x_right > 0.04){
       velocidadeE = -m_speed;
       velocidadeD = -(m_speed * sen2) * magnitude2;
     }
-    else if (y_left < 0.04 && y_left > -0.04 && x_left < 0.04 && x_left > 0){
+    else {
       velocidadeE = m_speed * 0;
       velocidadeD = m_speed * 0;
     }
