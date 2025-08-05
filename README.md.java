@@ -1,12 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Joystick;
  
 
@@ -63,47 +61,44 @@ public class Robot extends TimedRobot {
     m_leftDrive2.setNeutralMode(NeutralMode.Brake);
   }
 
- @Override
+  @Override
   public void teleopPeriodic() {
     button();
     dash();
-
-
+  
     Ltrigger = bob.getRawAxis(2);
     Rtrigger = bob.getRawAxis(3);
-
+  
     x_left = bob.getRawAxis(0);
     y_left = bob.getRawAxis(1);
     x_right = bob.getRawAxis(4);
     y_right = bob.getRawAxis(5);
-
-
+  
     POV = bob.getPOV();
-
-    if (POV != -1){
-      pov();
-    } else if (Rtrigger == 0 && magnitude < 0.1 && magnitude2 < 0.01){
-        Ltrigger();
-    } else if (Ltrigger == 0 && magnitude < 0.01 && magnitude2 < 0.01){
-        Rtrigger();
-    }
-    
-
     a = bob.getRawButton(1);
     b = bob.getRawButton(2);
     x = bob.getRawButton(3);
-
+  
+    if (POV != -1) {
+      pov();
+    } else if (Rtrigger > 0.04) {
+      Rtrigger();
+    } else if (Ltrigger > 0.04) {
+      Ltrigger();
+    } else {
+      if (Math.abs(x_left) < 0.04 && Math.abs(y_left) < 0.04) {
+        anaD();
+      } else {
+        anaE();
+      }
+    }
+  
     m_rightDrive.set(ControlMode.PercentOutput, velocidadeD);
     m_rightDrive2.set(ControlMode.PercentOutput, velocidadeD);
     m_leftDrive.set(ControlMode.PercentOutput, velocidadeE);
     m_leftDrive2.set(ControlMode.PercentOutput, velocidadeE);
-
-    if (x_left < 0.04 && x_left > 0 && y_left > -0.04 && y_left < 0.04){
-      anaD();
-    } else {
-      anaE();
-    }
   }
+  
 
   public void dash(){
     SmartDashboard.putNumber("RTrigger", Rtrigger);
@@ -196,7 +191,7 @@ public class Robot extends TimedRobot {
       velocidadeE = -m_speed;
       velocidadeD = -(m_speed * sen) * magnitude;
     }
-    else{
+    else if (y_left < 0.04 && y_left > -0.04 && x_left < 0.04 && x_left > -0.04){
       velocidadeE = m_speed * 0;
       velocidadeD = m_speed * 0;
     }
