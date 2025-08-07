@@ -61,7 +61,6 @@ public class Robot extends TimedRobot {
     m_leftDrive2.setNeutralMode(NeutralMode.Brake);
   }
 
-  @Override
   public void teleopPeriodic() {
     button();
     dash();
@@ -151,8 +150,8 @@ public class Robot extends TimedRobot {
       velocidadeE = Ltrigger * -m_speed;
       velocidadeD = Ltrigger * -m_speed;
     } else{
-      velocidadeE = m_speed * 0;
-      velocidadeD = m_speed * 0;
+      velocidadeE = 0;
+      velocidadeD = 0;
     }
   }
 
@@ -161,33 +160,34 @@ public class Robot extends TimedRobot {
       velocidadeD = Rtrigger * m_speed;
       velocidadeE = Rtrigger * m_speed;
     } else{
-      velocidadeD = m_speed * 0;
-      velocidadeE = m_speed * 0;
+      velocidadeD = 0;
+      velocidadeE = 0;
     }
   }
 
   public void anaE() {
 
-    double magnitude = Math.sqrt(y_left * y_left + x_left * x_left);
+    double magnitude = Math.hypot(y_left,x_left);
+
+    magnitude = Math.min(1, Math.max(-1, magnitude));
+
     double sen = y_left/magnitude;
 
-    Math.max(1, magnitude);
-    Math.max(1, magnitude);
 
     
-    if (y_left < 0.04 && x_left > 0.04){
+    if (y_left < 0 && x_left > 0){
       velocidadeE = m_speed * magnitude;
-      velocidadeD = (2 * sen - 1) * magnitude * m_speed * -1;
+      velocidadeD = (2 * sen + 1) * magnitude * m_speed * -1;
     } 
-    else if (y_left < 0.04 && x_left < 0.04){
-      velocidadeE = (m_speed * (2 * sen - 1)) * magnitude * -1;
+    else if (y_left < 0 && x_left < 0){
+      velocidadeE = (m_speed * (2 * sen + 1)) * magnitude * -1;
       velocidadeD = m_speed * magnitude;
     }
-    else if (y_left > 0.04 && x_left < 0.04){
+    else if (y_left > 0 && x_left < 0){
       velocidadeE = -(m_speed * (2 * sen - 1)) * magnitude;
       velocidadeD = -m_speed * magnitude;
     }
-    else if (y_left > 0.04 & x_left > 0.04){
+    else if (y_left > 0 & x_left > 0){
       velocidadeE = -m_speed * magnitude;
       velocidadeD = -(m_speed * (2 * sen - 1)) * magnitude;
     }
@@ -217,5 +217,6 @@ public class Robot extends TimedRobot {
       velocidadeE = -m_speed * magnitude2;
       velocidadeD = -(m_speed * sen2) * magnitude2;
     }
-}
+
+  }
   }
