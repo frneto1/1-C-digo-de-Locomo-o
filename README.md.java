@@ -177,23 +177,19 @@ public class Robot extends TimedRobot {
     
     if (y_left < 0.04 && x_left > 0.04){
       velocidadeE = m_speed * magnitude;
-      velocidadeD = (m_speed * sen) * magnitude * -1;
+      velocidadeD = (2 * sen - 1) * magnitude * m_speed * -1;
     } 
     else if (y_left < 0.04 && x_left < 0.04){
-      velocidadeE = (m_speed * sen) * magnitude * -1;
+      velocidadeE = (m_speed * (2 * sen - 1)) * magnitude * -1;
       velocidadeD = m_speed * magnitude;
     }
     else if (y_left > 0.04 && x_left < 0.04){
-      velocidadeE = -(m_speed * sen) * magnitude;
+      velocidadeE = -(m_speed * (2 * sen - 1)) * magnitude;
       velocidadeD = -m_speed * magnitude;
     }
     else if (y_left > 0.04 & x_left > 0.04){
       velocidadeE = -m_speed * magnitude;
-      velocidadeD = -(m_speed * sen) * magnitude;
-    }
-    else if (y_left < 0.04 && x_left < 0.04){
-      velocidadeE = m_speed * 0;
-      velocidadeD = m_speed * 0;
+      velocidadeD = -(m_speed * (2 * sen - 1)) * magnitude;
     }
   }
   public void anaD() {
@@ -205,25 +201,21 @@ public class Robot extends TimedRobot {
     Math.max(1, magnitude2);
 
     
-    if (y_right < 0.04 && x_right > 0.04){
+    if (y_right < 0 && x_right > 0){
       velocidadeE = m_speed * magnitude2;
       velocidadeD = (m_speed * sen2) * magnitude2 * -1;
     } 
-    else if (y_right < 0.04 && x_right < 0.04){
+    else if (y_right < 0 && x_right < 0){
       velocidadeE = (m_speed * sen2) * magnitude2 * -1;
       velocidadeD = m_speed * magnitude2;
     }
-    else if (y_right > 0.04 && x_right < 0.04){
+    else if (y_right > 0 && x_right < 0){
       velocidadeE = -(m_speed * sen2) * magnitude2;
       velocidadeD = -m_speed * magnitude2;
     }
-    else if (y_right > 0.04 & x_right > 0.04){
+    else if (y_right > 0 & x_right > 0){
       velocidadeE = -m_speed * magnitude2;
       velocidadeD = -(m_speed * sen2) * magnitude2;
-    }
-    else if (y_right < 0.04 && x_right < 0.04) {
-      velocidadeE = m_speed * 0;
-      velocidadeD = m_speed * 0;
     }
 }
   }
