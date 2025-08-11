@@ -139,9 +139,10 @@ public class Robot extends TimedRobot {
         velocidadeE = -m_speed;
         velocidadeD = m_speed;
         break;
-      case -1:
+      default:
         velocidadeE = 0;
         velocidadeD = 0;
+        break;
       }
   }
  
@@ -175,21 +176,25 @@ public class Robot extends TimedRobot {
 
 
     
-    if (y_left < 0 && x_left > 0){
+    if (y_left < 0.04 && x_left > 0.04){
       velocidadeE = m_speed * magnitude;
       velocidadeD = (2 * sen + 1) * magnitude * m_speed * -1;
     } 
-    else if (y_left < 0 && x_left < 0){
+    else if (y_left < 0.04 && x_left < 0.04){
       velocidadeE = (m_speed * (2 * sen + 1)) * magnitude * -1;
       velocidadeD = m_speed * magnitude;
     }
-    else if (y_left > 0 && x_left < 0){
+    else if (y_left > 0.04 && x_left < 0.04){
       velocidadeE = -(m_speed * (2 * sen - 1)) * magnitude;
       velocidadeD = -m_speed * magnitude;
     }
-    else if (y_left > 0 & x_left > 0){
+    else if (y_left > 0.04 & x_left > 0.04){
       velocidadeE = -m_speed * magnitude;
       velocidadeD = -(m_speed * (2 * sen - 1)) * magnitude;
+    }
+    else if (x_left == 0.04 && y_left == 0.04){
+      velocidadeE = 0;
+      velocidadeD = 0;
     }
   }
   public void anaD() {
@@ -201,21 +206,25 @@ public class Robot extends TimedRobot {
     Math.max(1, magnitude2);
 
     
-    if (y_right < 0 && x_right > 0){
+    if (y_right < 0.04 && x_right > 0.04){
       velocidadeE = -(m_speed * magnitude);
       velocidadeD = -((2 * sen + 1) * magnitude * m_speed * -1);
     } 
-    else if (y_right < 0 && x_right < 0){
+    else if (y_right < 0.04 && x_right < 0.04){
       velocidadeE = -((m_speed * (2 * sen + 1)) * magnitude * -1);
       velocidadeD = -(m_speed * magnitude);
     }
-    else if (y_right > 0 && x_right < 0){
+    else if (y_right > 0.04 && x_right < 0.04){
       velocidadeE = (m_speed * (2 * sen - 1)) * magnitude;
       velocidadeD = m_speed * magnitude;
     }
-    else if (y_right > 0 & x_right > 0){
+    else if (y_right > 0.04 & x_right > 0.04){
       velocidadeE = m_speed * magnitude;
       velocidadeD = (m_speed * (2 * sen - 1)) * magnitude;
+    }
+    else if (y_right == 0.04 && x_right == 0.04) {
+      velocidadeE = 0;
+      velocidadeD = 0;
     }
 
   }
