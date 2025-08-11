@@ -194,28 +194,28 @@ public class Robot extends TimedRobot {
   }
   public void anaD() {
 
-    double magnitude2 = Math.sqrt(y_right * y_right + x_right * x_right);
-    double sen2 = y_right/magnitude2;
+    double magnitude = Math.sqrt(y_right * y_right + x_right * x_right);
+    double sen = y_right/magnitude;
 
     Math.max(1, magnitude2);
     Math.max(1, magnitude2);
 
     
     if (y_right < 0 && x_right > 0){
-      velocidadeE = m_speed * magnitude2;
-      velocidadeD = (m_speed * sen2) * magnitude2 * -1;
+      velocidadeE = -(m_speed * magnitude);
+      velocidadeD = -((2 * sen + 1) * magnitude * m_speed * -1);
     } 
     else if (y_right < 0 && x_right < 0){
-      velocidadeE = (m_speed * sen2) * magnitude2 * -1;
-      velocidadeD = m_speed * magnitude2;
+      velocidadeE = -((m_speed * (2 * sen + 1)) * magnitude * -1);
+      velocidadeD = -(m_speed * magnitude);
     }
     else if (y_right > 0 && x_right < 0){
-      velocidadeE = -(m_speed * sen2) * magnitude2;
-      velocidadeD = -m_speed * magnitude2;
+      velocidadeE = (m_speed * (2 * sen - 1)) * magnitude;
+      velocidadeD = m_speed * magnitude;
     }
     else if (y_right > 0 & x_right > 0){
-      velocidadeE = -m_speed * magnitude2;
-      velocidadeD = -(m_speed * sen2) * magnitude2;
+      velocidadeE = m_speed * magnitude;
+      velocidadeD = (m_speed * (2 * sen - 1)) * magnitude;
     }
 
   }
